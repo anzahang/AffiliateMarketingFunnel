@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Affiliate Marketing Landing Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1F1F1F;
+    }
+    
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+    
+    h1 {
+      text-align: center;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
+    .form-group label {
+      display: block;
+      font-weight: bold;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    
+    .form-group input[type="submit"] {
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+    
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    
+    .thank-you-container {
+      background-color: #e0e0e0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 20px;
+      text-align: center;
+      display: none; /* Hide the container by default */
+    }
+  </style>
+</head>
+<body>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+  <div class="container">
+    <h1>Affiliate Marketing Landing Page</h1>
+    <form id="myForm">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <div id="emailError" class="error-message"></div>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Submit">
+      </div>
+    </form>
+    <div id="thankYouContainer" class="thank-you-container">
+      <h2>Thank you for providing your email!</h2>
+      <p>We appreciate your interest. We'll be in touch soon.</p>
+    </div>
+  </div>
+
+  <script>
+    function validateEmail(email) {
+      // Regular expression pattern for email validation
+      var pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return pattern.test(email);
+    }
+
+    function storeData(name, email) {
+      // Send the data to a server using AJAX
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", "store-data.php", true);
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          console.log("Data stored successfully!");
+        }
+      };
+      var data = "name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email);
+      xhr.send(data);
+    }
+
+    document.getElementById("myForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent form submission
+
+      // Get form values
+      var name = document.getElementById("name").value;
+      var email = document.getElementById("email").value;
+      var emailError = document.getElementById("emailError");
+
+      // Validate email
+      if (!validateEmail(email)) {
+        emailError.textContent = "Please enter a valid email address";
+        return;
+      } else {
+        emailError.textContent = ""; // Clear error message
+      }
+
+      // Store the collected data
+      storeData(name, email);
+
+      // Show the thank you message
+      var thankYouContainer = document.getElementById("thankYouContainer");
+      thankYouContainer.style.display = "block";
+
+      // Optionally, you can redirect the user to a thank you page
+      // window.location.href = "thank-you.html";
+    });
+  </script>
+</body>
+</html>
