@@ -57,6 +57,15 @@
       text-align: center;
       display: none; /* Hide the container by default */
     }
+    
+    .popup-button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -86,6 +95,12 @@
       <h2>Thank you for providing your email!</h2>
       <p>We appreciate your interest. We'll be in touch soon.</p>
     </div>
+    <div id="redirectPopup" class="thank-you-container" style="display: none;">
+      <h2>Click here to watch a free video about the product!</h2>
+      <button id="redirectButton" class="popup-button" target="_blank">Click here to continue</button>
+    </div>
+	<div class="affiliate-disclaimer">
+      <p>Disclaimer: As an affiliate marketer, I want to be transparent with you and disclose that I may earn commissions from qualifying purchases made through the links on this landing page. The products and services recommended here are carefully selected based on their relevance and value to the topic at hand. However, please note that I cannot guarantee your individual results or the effectiveness of these products for your specific needs. It's important to conduct your own research and make informed decisions before making any purchases. By clicking on any affiliate links and making a purchase, you acknowledge and agree that I am not responsible for any outcomes or experiences you may have with the products or services. Thank you for your support and understanding.</p>
   </div>
 
   <script>
@@ -103,11 +118,22 @@
       xhr.onreadystatechange = function() {
         if (xhr.readyState === 4 && xhr.status === 200) {
           console.log("Data stored successfully!");
+          showRedirectPopup();
         }
       };
       var data = "name=" + encodeURIComponent(name) + "&email=" + encodeURIComponent(email);
       xhr.send(data);
     }
+
+    function showRedirectPopup() {
+	  var redirectPopup = document.getElementById("redirectPopup");
+	  redirectPopup.style.display = "block";
+	  document.getElementById("redirectButton").addEventListener("click", function() {
+		window.open("file:///C:/Users/andre/Documents/aff%20marketting%20landing/video.html", "_blank");
+	  });
+	}
+
+
 
     document.getElementById("myForm").addEventListener("submit", function(event) {
       event.preventDefault(); // Prevent form submission
@@ -132,9 +158,13 @@
       var thankYouContainer = document.getElementById("thankYouContainer");
       thankYouContainer.style.display = "block";
 
-      // Optionally, you can redirect the user to a thank you page
-      // window.location.href = "thank-you.html";
+      // Show the redirect popup after 2 seconds
+      setTimeout(function() {
+        var redirectPopup = document.getElementById("redirectPopup");
+        redirectPopup.style.display = "block";
+      }, 2000);
     });
+
   </script>
 </body>
 </html>
